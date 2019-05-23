@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 /**
- * Enter the description
+ * URLClassLoader
  *
  * @autor rj-liang
  * @date 17-5-17 下午2:54
