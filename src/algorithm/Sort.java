@@ -2,7 +2,7 @@ package algorithm;
 
 /**
  * 排序算法
- *
+ * https://juejin.im/post/5b95da8a5188255c775d8124#heading-23
  * @autor rj-liang
  * @date 2017/5/14 下午9:54
  */
@@ -99,16 +99,60 @@ public class Sort {
      */
     public static void bubbleSort1(int[] nums) {
         int length = nums.length;
-        for (int i = 0; i < length-1; i++) {
-            for (int j = 0; j < length - 1-i; j++) {
+        // 外层：需要length-1次循环比较
+        for (int i = 0; i < length - 1; i++) {
+            // 内层：每次循环需要两两比较的次数，每次比较后，都会将当前最大的数放到最后位置，所以每次比较次数递减一次
+            for (int j = 0; j < length - 1 - i; j++) {
                 //这一步导致该算法是稳定排序
                 if (nums[j] > nums[j + 1]) {
-                    int tmp = nums[j];
-                    nums[j] = nums[j + 1];
-                    nums[j + 1] = tmp;
+//                    int tmp = nums[j];
+//                    nums[j] = nums[j + 1];
+//                    nums[j + 1] = tmp;
+
+                    // 交换数组array的j和j+1位置的数据
+                    swapByTemp(nums, j, j + 1);
                 }
             }
         }
+    }
+
+    /**
+     * 通过临时变量交换数组array的i和j位置的数据
+     *
+     * @param array 数组
+     * @param i 下标i
+     * @param j 下标j
+     */
+    private static void swapByTemp(int[] array, int i, int j) {
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+
+    /**
+     * 通过算术法交换数组array的i和j位置的数据（有可能溢出）
+     *
+     * @param array 数组
+     * @param i 下标i
+     * @param j 下标j
+     */
+    private static void swapByArithmetic(int[] array, int i, int j) {
+        array[i] = array[i] + array[j];
+        array[j] = array[i] - array[j];
+        array[i] = array[i] - array[j];
+    }
+
+    /**
+     * 通过位运算法交换数组array的i和j位置的数据
+     *
+     * @param array 数组
+     * @param i 下标i
+     * @param j 下标j
+     */
+    public static void swapByBitOperation(int[] array, int i, int j) {
+        array[i] = array[i]^array[j];
+        array[j] = array[i]^array[j]; //array[i]^array[j]^array[j]=array[i]
+        array[i] = array[i]^array[j]; //array[i]^array[j]^array[i]=array[j]
     }
 
     /**
@@ -117,7 +161,7 @@ public class Sort {
      *
      * @param nums
      */
-    public void bubbleSort2(int[] nums) {
+    public static void bubbleSort2(int[] nums) {
         int length = nums.length;
         boolean flag = true;
         while (flag) {

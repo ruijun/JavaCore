@@ -19,7 +19,7 @@ public class GenericTest {
         System.out.println(box1.getClass() == box2.getClass());
 
         /**
-         * 测试协变和逆变
+         * 测试协变和逆变 PECS 法则：「Producer-Extends, Consumer-Super」
          *
          * 协变就是用一个窄类型替代宽类型： 泛型不支持协变，但可以通过<? extends E>进行模拟
          * <? extends E>指泛型参数支持E及E的子类
