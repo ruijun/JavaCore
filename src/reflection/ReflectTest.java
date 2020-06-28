@@ -15,36 +15,39 @@ public class ReflectTest {
      */
     public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchFieldException, NoSuchMethodException {
 
-        System.out.println("demo1：通过Java反射机制得到类的包名和类名");
-        demo1();
+//        System.out.println("demo1：通过Java反射机制得到类的包名和类名");
+//        demo1();
+//
+//        System.out.println("");
+//        System.out.println("demo2：验证所有的类都是Class类的实例对象");
+//        demo2();
+//
+//        System.out.println("");
+//        System.out.println("demo3：通过Java反射机制，用 Class 创建类对象，这也就是反射存在的意义所在");
+//        demo3();
+//
+//        System.out.println("");
+//        System.out.println("demo4：通过Java反射机制得到一个类的构造函数，并实现创建带参实例对象");
+//        demo4();
+//
+//        System.out.println("");
+//        System.out.println("demo5：通过Java反射机制操作成员变量, set 和 get");
+//        demo5();
+//
+//        System.out.println("");
+//        System.out.println("demo6：通过Java反射机制得到类的一些属性：继承的接口、父类、函数信息、成员信息、类型等");
+//        demo6();
+//
+//        System.out.println("");
+//        System.out.println("demo7：通过Java反射机制调用类方法");
+//        demo7();
+//
+//        System.out.println("");
+//        System.out.println("demo8：通过Java反射机制得到类加载器信息");
+//        demo8();
 
-        System.out.println("");
-        System.out.println("demo2：验证所有的类都是Class类的实例对象");
-        demo2();
-
-        System.out.println("");
-        System.out.println("demo3：通过Java反射机制，用 Class 创建类对象，这也就是反射存在的意义所在");
-        demo3();
-
-        System.out.println("");
-        System.out.println("demo4：通过Java反射机制得到一个类的构造函数，并实现创建带参实例对象");
-        demo4();
-
-        System.out.println("");
-        System.out.println("demo5：通过Java反射机制操作成员变量, set 和 get");
-        demo5();
-
-        System.out.println("");
-        System.out.println("demo6：通过Java反射机制得到类的一些属性：继承的接口、父类、函数信息、成员信息、类型等");
-        demo6();
-
-        System.out.println("");
-        System.out.println("demo7：通过Java反射机制调用类方法");
-        demo7();
-
-        System.out.println("");
-        System.out.println("demo8：通过Java反射机制得到类加载器信息");
-        demo8();
+        System.out.println("testApple");
+        testApple();
     }
 
     /**
@@ -61,14 +64,20 @@ public class ReflectTest {
      */
     public static void demo2() throws ClassNotFoundException {
         //定义两个类型都未知的Class，设置初值为null，看看如何给它们赋值成Person类
-        Class<?> class1 = null;
-        Class<?> class2 = null;
-        //写法1，可能抛出 ClassNotFoundException 异常，多用这个写法
-        class1 = Class.forName("demo.reflect.Box");
-        System.out.println("写法1，包名：" + class1.getPackage().getName() + " , 完整类名：" + class1.getName());
-        //写法2
-        class2 = Person.class;
-        System.out.println("写法2，包名：" + class2.getPackage().getName() + " , 完整类名：" + class2.getName());
+        try {
+            Class<?> class1 = null;
+            Class<?> class2 = null;
+            //写法1，可能抛出 ClassNotFoundException 异常，多用这个写法
+            class1 = Class.forName("demo.reflect.Box");
+            System.out.println("写法1，包名：" + class1.getPackage().getName() + " , 完整类名：" + class1.getName());
+            //写法2
+            class2 = Person.class;
+            System.out.println("写法2，包名：" + class2.getPackage().getName() + " , 完整类名：" + class2.getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     /**
@@ -173,5 +182,33 @@ public class ReflectTest {
         Class<?> class1 = Class.forName("demo.reflect.SuperMan");
         String name = class1.getClassLoader().getClass().getName();
         System.out.println("类加载器类名：" + name);
+    }
+
+    public static void testApple() {
+        //正常的调用
+        Apple apple = new Apple();
+        apple.setPrice(5);
+        System.out.println("Apple Price:" + apple.getPrice());
+
+        try {
+            //使用反射调用
+            Class clz = Class.forName("reflection.Apple");
+            Method setPriceMethod = clz.getMethod("setPrice", int.class);
+            Constructor appleConstructor = clz.getConstructor();
+            Object appleObj = appleConstructor.newInstance();
+            setPriceMethod.invoke(appleObj, 14);
+            Method getPriceMethod = clz.getMethod("getPrice");
+            System.out.println("Apple Price:" + getPriceMethod.invoke(appleObj));
+
+            Class clz1 = Apple.class;
+            Field[] fields = clz.getFields();
+            for (Field field: fields) {
+                System.out.println(field.getName());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 }
