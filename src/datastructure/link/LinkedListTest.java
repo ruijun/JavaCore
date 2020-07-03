@@ -16,9 +16,9 @@ public class LinkedListTest {
         stringLinkedList.add("e");
         stringLinkedList.add("f");
 
-//        for (int i = 0 ; i < stringLinkedList.size(); i++) {
-//            System.out.println(stringLinkedList.get(i));
-//        }
+        for (int i = 0 ; i < stringLinkedList.size(); i++) {
+            System.out.println(stringLinkedList.get(i));
+        }
         stringLinkedList.printList();
         stringLinkedList.reverseLinkedList();
         stringLinkedList.printList();

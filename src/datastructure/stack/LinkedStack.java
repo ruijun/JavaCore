@@ -8,11 +8,11 @@ import datastructure.Node;
  * @autor rj-liang
  * @date 17-5-27 上午11:09
  */
-public class LInkedStack<E> {
+public class LinkedStack<E> {
     protected int size;
     protected Node<E> top;
 
-    public LInkedStack() {
+    public LinkedStack() {
         this.size = 0;
         this.top = null;
     }

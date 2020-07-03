@@ -37,7 +37,7 @@ public class SeqStack<E> {
             throw new Exception("栈为空...");
         }
         E element = (E)stack[top];
-        stack[top --] = null;    // 删除该元素
+//        stack[top --] = null;    // 删除该元素
         return element;
     }
 
@@ -47,6 +47,8 @@ public class SeqStack<E> {
             throw new Exception("栈已满...");
         }
         stack[++top] = e;
+        System.out.println("top=" + top + " e=" + e);
+
     }
 
     // 打印栈
