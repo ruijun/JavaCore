@@ -112,18 +112,9 @@ public class BinaryTree2 {
      */
     public static void preOrder(BinaryTree2 node) {
         if (node != null) {
-
             System.out.print(node.data + " ");
-
-            if (node.left != null) {
-                node.left.preOrder(node.left);
-            }
-
-            if (node.right != null) {
-                System.out.print("===" + node.data);
-                System.out.print(node.data + " ");
-                node.right.preOrder(node.right);
-            }
+            node.left.preOrder(node.left);
+            node.right.preOrder(node.right);
         }
     }
 

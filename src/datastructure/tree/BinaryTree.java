@@ -131,7 +131,7 @@ public class BinaryTree {
     }
 
     /**
-     * 层次遍历
+     * 层次遍历(广度优先BFS)
      *
      * @param root
      */

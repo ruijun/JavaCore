@@ -22,7 +22,7 @@ public class BinaryTreeTest {
     }
 
     public static void preOrderTest() {
-        preOrder(init());
+        bfsOrder(init());
     }
 
     public static BinaryTree2 init() {
