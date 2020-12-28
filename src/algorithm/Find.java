@@ -1,5 +1,7 @@
 package algorithm;
 
+import java.util.Arrays;
+
 /**
  * 查找算法
  *
@@ -37,12 +39,15 @@ public class Find {
      */
     public static int binarySearchFind(int[] nums, int des) {
         int length = nums.length;
+        System.out.println("length=" + length);
         // 定义最大索引和最小索引
         int low = 0;
         int high = length - 1;
         while (low <= high) {
             // 计算中间索引
             int mid = (low + high) / 2;
+            System.out.println("mid=" + mid + ",low=" + low + ",high=" + high);
+            System.out.println("nums=" + Arrays.toString(nums));
             if (nums[mid] == des) {
                 return mid;
             } else if (nums[mid] < des) {
@@ -52,12 +57,14 @@ public class Find {
                 // 在左边查找
                 high = mid - 1;
             }
+
         }
         return -1;
     }
 
     /**
      * 递归方法实现二分查找法.
+     * https://blog.csdn.net/weixin_38118016/article/details/89368351
      *
      * @param nums
      * @param des

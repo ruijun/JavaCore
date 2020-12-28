@@ -11,7 +11,7 @@ import datastructure.Node;
 public class LinkedList<E> {
 
     int size = 0;// 表示数组大小的指标
-    private Node<E> header = null;// 头结点
+    Node<E> header = null;// 头结点
 
     public LinkedList() {
         this.header = new Node<E>();
@@ -146,6 +146,26 @@ public class LinkedList<E> {
     }
 
     /**
+     * 递归: https://blog.csdn.net/weixin_38118016/article/details/89368351
+     */
+    public Node<E> reverse(Node<E> head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        // 这里的cur就是最后一个节点
+        Node<E> cur = reverse(head.next);
+        // 如果链表是 1->2->3->4->5，那么此时的cur就是5
+        // 而head是4，head的下一个是5，下下一个是空
+        // 所以head.next.next 就是5->4
+        head.next.next = head;
+        // 防止链表循环，需要将head.next设置为空
+        head.next = null;
+        // 每层递归函数都返回cur，也就是最后一个节点
+        return cur;
+    }
+
+    /**
      * 输入两个递增排序的链表，合并这两个链表并使新链表中的结点仍然是按照递增排序的
      * 【使用的是递归的解法，不推荐，递归调用的时候会有方法入栈，需要更多的内存】
      *
@@ -182,6 +202,15 @@ public class LinkedList<E> {
     public void printList() {
         Node<E> tmp = header;
         while (tmp != null) {
+            System.out.print(tmp.data + " ");
+            tmp = tmp.next;
+        }
+        System.out.println();
+    }
+
+    public void printList(Node<E> head) {
+        Node<E> tmp = head;
+        while (tmp != null){
             System.out.print(tmp.data + " ");
             tmp = tmp.next;
         }

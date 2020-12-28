@@ -1,5 +1,7 @@
 package datastructure.link;
 
+import datastructure.Node;
+
 /**
  * Enter the description
  *
@@ -20,7 +22,9 @@ public class LinkedListTest {
             System.out.println(stringLinkedList.get(i));
         }
         stringLinkedList.printList();
-        stringLinkedList.reverseLinkedList();
-        stringLinkedList.printList();
+        Node<String> header = stringLinkedList.reverse(stringLinkedList.header);
+        stringLinkedList.printList(header);
     }
+
+
 }
