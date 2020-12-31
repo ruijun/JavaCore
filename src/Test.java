@@ -47,7 +47,15 @@ public class Test {
 //		System.out.println("------------>" + Find.binarySearchFind(nums, 12));
 
 		int []nums1 = {1, 3, 10, 12, 12, 12, 111, 222, 1234};
-		System.out.println("------------>" + Find.binarySearchMin(nums1, 12));
+		System.out.println("------------>1 " + Find.binarySearchMin(nums1, 12));
+
+		int []nums2 = {1, 3, 10, 12, 12};
+		System.out.println("------------>2 " + Find.binarySearchInsert(nums2, 12));
+
+		for (int i = 0; i < 2; i++) {
+			System.out.println("i=" + i);
+		}
+
 	}
 
 	public static void test1(boolean isShow, int num) {

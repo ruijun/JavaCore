@@ -42,12 +42,19 @@ public class LinkedList<E> {
         return true;
     }
 
+    public void delNode(Node<E> node) {
+        if (node.next != null) {
+            node.data = node.next.data;
+            node.next = node.next.next;
+        }
+    }
+
     /**
      * 遍历当前链表，取得当前索引对应的元素
      *
      * @return
      */
-    private Node<E> getNode(int index) {
+    public Node<E> getNode(int index) {
         // 先判断索引正确性
         if (index > size || index < 0) {
             throw new RuntimeException("索引值有错：" + index);
@@ -147,14 +154,18 @@ public class LinkedList<E> {
 
     /**
      * 递归: https://blog.csdn.net/weixin_38118016/article/details/89368351
+     * https://www.cnblogs.com/keeya/p/9218352.html
      */
     public Node<E> reverse(Node<E> head) {
+        System.out.println("0 head=" + head.data);
         if (head == null || head.next == null) {
+            System.out.println("1 head=" + head.data);
             return head;
         }
 
         // 这里的cur就是最后一个节点
         Node<E> cur = reverse(head.next);
+        System.out.println("2 head=" + head.data + " cur=" + cur.data);
         // 如果链表是 1->2->3->4->5，那么此时的cur就是5
         // 而head是4，head的下一个是5，下下一个是空
         // 所以head.next.next 就是5->4
@@ -162,7 +173,36 @@ public class LinkedList<E> {
         // 防止链表循环，需要将head.next设置为空
         head.next = null;
         // 每层递归函数都返回cur，也就是最后一个节点
+        System.out.println("3 head=" + head.data);
         return cur;
+    }
+
+    /**
+     * pre上一个 head当前 next下一个
+     * https://leetcode-cn.com/problems/reverse-linked-list/solution/tu-jie-fan-zhuan-dan-lian-biao-by-tian90/
+     *
+     * @param head
+     * @return
+     */
+    public Node<E> reverse2(Node<E> head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        Node<E> pre = null;
+        Node<E> next = head.next;
+
+        while (next != null) {
+            head.next = pre;
+            pre = head;
+            head = next;
+            next = next.next;
+        }
+
+        head.next = pre;
+
+        return head;
+
     }
 
     /**
@@ -194,6 +234,45 @@ public class LinkedList<E> {
         }
         // 返回处理结果
         return tmp;
+    }
+
+    /**
+     * 链表是升序的，我们只需要遍历每个链表的头，比较一下哪个小就把哪个链表的头拿出来放到新的链表中，
+     * 一直这样循环，直到有一个链表为空，然后我们再把另一个不为空的链表挂到新的链表中。
+     *
+     * https://leetcode-cn.com/problems/he-bing-liang-ge-pai-xu-de-lian-biao-lcof/solution/javadai-ma-ji-bai-9927di-gui-he-fei-di-gui-tu-wen-/
+     *
+     * @param head1
+     * @param head2
+     * @return
+     */
+    public static Node<Integer> mergeTwo(Node<Integer> head1, Node<Integer> head2) {
+        if (head1 == null) {
+            return head2;
+        }
+
+        if (head2 == null) {
+            return head1;
+        }
+
+        Node<Integer> dummy = new Node<>();
+        Node<Integer> curr = dummy;
+
+        while (head1 != null && head2 != null) {
+            if (head1.data <= head2.data) {
+                curr.next = head1;
+                head1 = head1.next;
+            } else {
+                curr.next = head2;
+                head2 = head2.next;
+            }
+
+            curr = curr.next;
+        }
+
+        curr.next = (head1 == null ? head2 : head1);
+
+        return dummy.next;
     }
 
     /**
