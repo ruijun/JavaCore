@@ -2,6 +2,7 @@ package datastructure.tree;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
+import java.util.Stack;
 
 /**
  * datastructure.tree
@@ -107,69 +108,86 @@ public class BinaryTree2 {
 
     /**
      * 前序遍历
+     * 对于树中的任意节点来说，先打印这个节点，然后再打印它的左子树，最后打印它的右子树
      *
      * @param node
      */
     public static void preOrder(BinaryTree2 node) {
-        if (node != null) {
-            System.out.print(node.data + " ");
-            node.left.preOrder(node.left);
-            node.right.preOrder(node.right);
+        if (node == null) {
+            return;
         }
+
+        System.out.print(node.data + " ");
+        node.left.preOrder(node.left);
+        node.right.preOrder(node.right);
     }
 
     /**
      * 中序遍历
+     * 对于树中的任意节点来说，先打印它的左子树，然后再打印它本身，最后打印它的右子树
      *
      * @param node
      */
     public static void inOrder(BinaryTree2 node) {
-        if (node != null) {
-            if (node.left != null) {
-                node.left.inOrder(node.left);
-            }
+        if (node == null) {
+            return;
+        }
 
-            System.out.print(node.data+" ");
+        node.left.inOrder(node.left);
+        System.out.print(node.data + " ");
+        node.right.inOrder(node.right);
 
-            if (node.right != null) {
-                node.right.inOrder(node.right);
+    }
+
+    public static void inOrder2(BinaryTree2 node) {
+        if (node == null) {
+            return;
+        }
+
+        Stack<BinaryTree2> stack = new Stack<>();
+        while (!stack.isEmpty() || node != null) {
+            if (node != null) {
+                stack.push(node);
+                node = node.left;
+            } else {
+                node = stack.pop();
+                System.out.print(node.data + " ");
+                node = node.right;
             }
         }
+
     }
 
     /**
      * 后序遍历
+     * 对于树中的任意节点来说，先打印它的左子树，然后再打印它的右子树，最后打印这个节点本身
      *
      * @param node
      */
     public static void postOrder(BinaryTree2 node) {
-        if (node != null) {
-            if (node.left != null) {
-                node.left.postOrder(node.left);
-            }
-
-            if (node.right != null) {
-                node.right.postOrder(node.right);
-            }
-
-            System.out.print(node.data+" ");
+        if (node == null) {
+            return;
         }
+
+        node.left.postOrder(node.left);
+        node.right.postOrder(node.right);
+        System.out.print(node.data + " ");
     }
 
     /**
-     * 广度排序
+     * 广度排序（逐层打印）
      *
      * @param node
      */
     public static void bfsOrder(BinaryTree2 node) {
         if (node != null) {
-            Queue<BinaryTree2> queue = new ArrayDeque<BinaryTree2>();
+            Queue<BinaryTree2> queue = new ArrayDeque<>();
             queue.add(node);
 
             while (!queue.isEmpty()) {
                 BinaryTree2 current_node = queue.poll();
 
-                System.out.print (current_node.data+" ");
+                System.out.print(current_node.data + " ");
 
                 if (current_node.left != null) {
                     queue.add(current_node.left);
@@ -177,6 +195,44 @@ public class BinaryTree2 {
                 if (current_node.right != null) {
                     queue.add(current_node.right);
                 }
+            }
+        }
+    }
+
+    /**
+     * 深度遍历（前序，中序，后序）
+     * 先从根节点出发，沿着左子树进行纵向遍历直到找到叶子节点为止。然后回溯到前一个节点，进行右子树节点的遍历，
+     * 直到遍历完所有可达节点为止。
+     *
+     * @param node
+     */
+    public static void dfsOrder(BinaryTree2 node) {
+        if (node == null) {
+            return;
+        }
+
+        System.out.print(node.data + " ");
+        dfsOrder(node.left);
+        dfsOrder(node.right);
+    }
+
+    public static void dfsOrder2(BinaryTree2 node) {
+        if (node == null) {
+            return;
+        }
+
+        Stack<BinaryTree2> stack = new Stack<>();
+        stack.push(node);
+        while (!stack.empty()) {
+            BinaryTree2 curNode = stack.pop();
+            System.out.print(curNode.data + " ");
+
+            if (curNode.right != null) {
+                stack.push(curNode.right);
+            }
+
+            if (curNode.left != null) {
+                stack.push(curNode.left);
             }
         }
     }
@@ -223,6 +279,7 @@ public class BinaryTree2 {
 
     /**
      * 删除节点
+     *
      * @param node
      * @param value
      * @param parent
@@ -258,8 +315,8 @@ public class BinaryTree2 {
                     parent.right = node.right;
                     node.clearNode(node);
                 } else {
-                    node.data=String.valueOf(node.right.findMinValue(node.right));
-                    node.right.removeNode(node.right,Integer.valueOf(node.right.data),node);
+                    node.data = String.valueOf(node.right.findMinValue(node.right));
+                    node.right.removeNode(node.right, Integer.valueOf(node.right.data), node);
                 }
                 return true;
             }
@@ -290,6 +347,17 @@ public class BinaryTree2 {
             }
         }
         return null;
+    }
+
+    public static int treeHeight(BinaryTree2 tree) {
+        if (tree == null) {
+            return 0;
+        }
+
+        int lHeight = treeHeight(tree.left);
+        int rHeight = treeHeight(tree.right);
+
+        return lHeight > rHeight ? lHeight + 1 : rHeight + 1;
     }
 }
 

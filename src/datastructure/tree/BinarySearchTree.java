@@ -67,8 +67,7 @@ public class BinarySearchTree {
         }
 
         if (find(node.data) != null) {
-            System.out.println("不允许插入相同data的数");
-            throw new RuntimeException();
+            throw new RuntimeException("不允许插入相同data的数");
         }
 
         Node current = root;
@@ -248,7 +247,7 @@ public class BinarySearchTree {
      *
      * @return
      */
-    public Node getMinNode() {
+    public Node findMinNode() {
         if (root == null) {
             throw new RuntimeException("树为空");
         }
@@ -265,7 +264,7 @@ public class BinarySearchTree {
      *
      * @return
      */
-    public Node getMaxNode() {
+    public Node findMaxNode() {
         if (root == null) {
             throw new RuntimeException("树为空");
         }
@@ -320,6 +319,21 @@ public class BinarySearchTree {
         if (preRight.length != 0) {
             getTree(preRight, right,r.right);
         }
+    }
+
+    public Node findNode(int data) {
+        Node p = this.root;
+
+        while (p != null) {
+            if (p.data == data) {
+                return p;
+            } else if (p.data < data) {
+                p = p.right;
+            } else {
+                p = p.left;
+            }
+        }
+        return null;
     }
 
     public static class Node {
