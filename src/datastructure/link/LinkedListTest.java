@@ -50,6 +50,23 @@ public class LinkedListTest {
         stringLinkedList1.delNode(stringLinkedList1.getNode(5));
         stringLinkedList.printList(stringLinkedList1.header);
 
+        System.out.println("============================双向链表===========================");
+
+        DoubleLinkedList<Integer>  doubleLinkedList = new DoubleLinkedList<>();
+        for (int i = 0; i < 6; i++) {
+            doubleLinkedList.addFirst(i);
+        }
+
+//        doubleLinkedList.add(100, 3);
+//        doubleLinkedList.add(100, 6);
+
+        doubleLinkedList.display();
+
+//        doubleLinkedList.removeLast();
+        doubleLinkedList.remove(3);
+
+        doubleLinkedList.display();
+
     }
 
 

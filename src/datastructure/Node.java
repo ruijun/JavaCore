@@ -11,7 +11,8 @@ public class Node<T> {
     // 数据域
     public T data;
     // 引用域
-    public Node<T> next;
+    public Node<T> next; // 下一个
+    public Node<T> prev; // 上一个
 
     public Node() {
 
