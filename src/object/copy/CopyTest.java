@@ -2,6 +2,7 @@ package object.copy;
 
 /**
  * 深拷贝与浅拷贝
+ * https://www.huaweicloud.com/articles/86525657c3243f448bbbb000e5345828.html
  *
  * @autor rj-liang
  * @date 2017/5/14 下午9:55
