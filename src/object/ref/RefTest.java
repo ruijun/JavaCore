@@ -21,6 +21,7 @@ public class RefTest {
         //创建弱引用并关联引用队列
         ReferenceQueue<User> queue = new ReferenceQueue<>();
         WeakReference<User> weakReference = new WeakReference<>(user, queue);
+
         //置空强引用，触发GC
         user = null;
         Runtime.getRuntime().gc();
