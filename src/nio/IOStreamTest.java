@@ -173,7 +173,7 @@ public class IOStreamTest {
         try (Source fileSource = Okio.source(new File("E:\\test.txt"));
              BufferedSource bufferedSource = Okio.buffer(fileSource)) {
              String line = bufferedSource.readUtf8();
-            System.out.println(line);
+             System.out.println(line);
 
         } catch (Exception e) {
             e.printStackTrace();
