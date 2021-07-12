@@ -4,6 +4,7 @@ import java.lang.reflect.*;
 
 /**
  * 反射测试类
+ * 主要是指程序可以访问、检测和修改它本身状态或行为的一种能力。
  *
  * @autor rj-liang
  * @date 2017/5/14 下午9:57
