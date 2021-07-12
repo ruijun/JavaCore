@@ -6,6 +6,7 @@ package thread.join;
 public class JoinTest {
     public static void main(String[] args) {
         Thread thread = new Thread(new JoinDemo());
+        thread.setName("JoinDemo");
         thread.start();
         System.out.println(Thread.currentThread().getName() + "==>" + thread.getState());
 
