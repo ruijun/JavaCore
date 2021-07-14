@@ -4,7 +4,7 @@ import java.lang.reflect.*;
 
 /**
  * 反射测试类
- * 主要是指程序可以访问、检测和修改它本身状态或行为的一种能力。
+ * 指在程序的运行状态中，可以构造任意一个类的对象，可以了解任意一个对象所属的类，可以了解任意一个类的成员变量和方法，可以调用任意一个对象的属性和方法
  *
  * @autor rj-liang
  * @date 2017/5/14 下午9:57
@@ -16,8 +16,8 @@ public class ReflectTest {
      */
     public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchFieldException, NoSuchMethodException {
 
-//        System.out.println("demo1：通过Java反射机制得到类的包名和类名");
-//        demo1();
+        System.out.println("demo1：通过Java反射机制得到类的包名和类名");
+        demo1();
 //
 //        System.out.println("");
 //        System.out.println("demo2：验证所有的类都是Class类的实例对象");
@@ -39,25 +39,35 @@ public class ReflectTest {
 //        System.out.println("demo6：通过Java反射机制得到类的一些属性：继承的接口、父类、函数信息、成员信息、类型等");
 //        demo6();
 //
-//        System.out.println("");
-//        System.out.println("demo7：通过Java反射机制调用类方法");
-//        demo7();
-//
-//        System.out.println("");
-//        System.out.println("demo8：通过Java反射机制得到类加载器信息");
-//        demo8();
+        System.out.println("");
+        System.out.println("demo7：通过Java反射机制调用类方法");
+        demo7();
 
-        System.out.println("testApple");
-        testApple();
+        System.out.println("");
+        System.out.println("demo8：通过Java反射机制得到类加载器信息");
+        demo8();
+
+//        System.out.println("testApple");
+//        testApple();
     }
 
     /**
      * demo1：通过Java反射机制得到类的包名和类名
+     * getName()
+     * 返回的是虚拟机里面的class的类名表现形式。
+     *
+     * getCanonicalName()
+     * 返回的是更容易理解的类名表示。
+     *
+     * getSimpleName()
+     * 返回的是类的简称。
      */
     public static void demo1() {
         Person person = new Person();
-        System.out.println("包名：" + person.getClass().getPackage().getName());
-        System.out.println("完整类名：" + person.getClass().getName());
+        System.out.println("getPackage：" + person.getClass().getPackage().getName());
+        System.out.println("getCanonicalName：" + person.getClass().getCanonicalName());
+        System.out.println("getName：" + person.getClass().getName());
+        System.out.println("getSimpleName：" + person.getClass().getSimpleName());
     }
 
     /**
@@ -69,7 +79,7 @@ public class ReflectTest {
             Class<?> class1 = null;
             Class<?> class2 = null;
             //写法1，可能抛出 ClassNotFoundException 异常，多用这个写法
-            class1 = Class.forName("demo.reflect.Box");
+            class1 = Class.forName("reflection.Box");
             System.out.println("写法1，包名：" + class1.getPackage().getName() + " , 完整类名：" + class1.getName());
             //写法2
             class2 = Person.class;
@@ -86,7 +96,7 @@ public class ReflectTest {
      */
     public static void demo3() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         Class<?> class1 = null;
-        class1 = Class.forName("demo.reflect.Box");
+        class1 = Class.forName("reflection.Box");
         //由于这里不能带参数，所以你要实例化的这个类Person，一定要有无参构造函数
         Person person = (Person) class1.newInstance();
         person.setName("xiaoming");
@@ -102,7 +112,7 @@ public class ReflectTest {
         Person person1 = null;
         Person person2 = null;
 
-        class1 = Class.forName("demo.reflect.Box");
+        class1 = Class.forName("reflection.Box");
         Constructor<?>[] constructors = class1.getConstructors();
 
         person1 = (Person) constructors[0].newInstance();
@@ -116,9 +126,9 @@ public class ReflectTest {
     /**
      * demo5：通过Java反射机制操作成员变量, set 和 get
      */
-    public static void demo5() throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchFieldException, SecurityException {
-        Class<?> class1 = Class.forName("demo.reflect.Box");
-        Object obj = class1.newInstance();
+    public static void demo5() throws Exception {
+        Class<?> class1 = Class.forName("reflection.Box");
+        Object obj = class1.getDeclaredConstructor().newInstance();
         Field personNameField = class1.getDeclaredField("name");
         personNameField.setAccessible(true); //取消访问检查
         personNameField.set(obj, "小虎");
@@ -129,7 +139,7 @@ public class ReflectTest {
      * demo6：通过Java反射机制得到类的一些属性：继承的接口、父类、函数信息、成员信息、类型等
      */
     public static void demo6() throws ClassNotFoundException {
-        Class<?> class1 = Class.forName("demo.reflect.SuperMan");
+        Class<?> class1 = Class.forName("reflection.SuperMan");
 
         //取得父类名称
         Class<?> superclass = class1.getSuperclass();
@@ -161,15 +171,15 @@ public class ReflectTest {
      * demo7：通过Java反射机制调用类方法
      */
     public static void demo7() throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InstantiationException, InvocationTargetException {
-        Class<?> class1 = Class.forName("demo.reflect.SuperMan");
+        Class<?> class1 = Class.forName("reflection.SuperMan");
 
         System.out.println("调用无参方法fly()：");
         Method method = class1.getMethod("fly");
-        method.invoke(class1.newInstance());
+        method.invoke(class1.getDeclaredConstructor().newInstance());
 
         System.out.println("调用有参方法walk(int m)：");
         method = class1.getMethod("walk", int.class);
-        method.invoke(class1.newInstance(), 100);
+        method.invoke(class1.getDeclaredConstructor().newInstance(), 100);
     }
 
     /**
@@ -180,7 +190,7 @@ public class ReflectTest {
      * 3）AppClassLoader 加载classpath指定的类，是最常用的加载器，同时也是java中默认的加载器。
      */
     public static void demo8() throws ClassNotFoundException {
-        Class<?> class1 = Class.forName("demo.reflect.SuperMan");
+        Class<?> class1 = Class.forName("reflection.SuperMan");
         String name = class1.getClassLoader().getClass().getName();
         System.out.println("类加载器类名：" + name);
     }

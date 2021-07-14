@@ -15,22 +15,31 @@ public class LockTest {
     public static void main(String[] args) {
         final LockTest test = new LockTest();
 
-        new Thread() {
+        Thread threadA = new Thread(new Runnable() {
+            @Override
             public void run() {
                 test.insert(Thread.currentThread());
             }
-        }.start();
+        }, "ThreadA");
 
-        new Thread() {
+        Thread threadB = new Thread(new Runnable() {
+            @Override
             public void run() {
                 test.insert(Thread.currentThread());
             }
-        }.start();
+        }, "ThreadB");
+
+
+        threadA.start();
+        threadB.start();
+
     }
 
     public void insert(Thread thread) {
-        lock.lock();
         try {
+            lock.lockInterruptibly();
+//            boolean result = lock.tryLock(1000, TimeUnit.MILLISECONDS);
+//            System.out.printf("tryLock->" + result);
             System.out.println(thread.getName() + "得到了锁");
             for (int i = 0; i < 5; i++) {
                 arrayList.add(i);
