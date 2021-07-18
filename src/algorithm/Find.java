@@ -46,8 +46,6 @@ public class Find {
         while (low <= high) {
             // 计算中间索引
             int mid = (low + high) / 2;
-            System.out.println("mid=" + mid + ",low=" + low + ",high=" + high);
-            System.out.println("nums=" + Arrays.toString(nums));
             if (nums[mid] == des) {
                 return mid;
             } else if (nums[mid] < des) {

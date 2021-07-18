@@ -1,9 +1,5 @@
 package nio;
 
-import okio.BufferedSource;
-import okio.Okio;
-import okio.Source;
-
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
@@ -170,13 +166,13 @@ public class IOStreamTest {
 //            e.printStackTrace();
 //        }
 
-        try (Source fileSource = Okio.source(new File("E:\\test.txt"));
-             BufferedSource bufferedSource = Okio.buffer(fileSource)) {
-             String line = bufferedSource.readUtf8();
-             System.out.println(line);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try (Source fileSource = Okio.source(new File("E:\\test.txt"));
+//             BufferedSource bufferedSource = Okio.buffer(fileSource)) {
+//             String line = bufferedSource.readUtf8();
+//             System.out.println(line);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 }

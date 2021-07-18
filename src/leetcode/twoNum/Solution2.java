@@ -26,6 +26,6 @@ public class Solution2 {
             }
             map.put(nums[i], i);
         }
-        return null;
+        return new int[0];
     }
 }

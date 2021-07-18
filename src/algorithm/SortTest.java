@@ -1,7 +1,6 @@
 package algorithm;
 
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Enter the description
@@ -24,6 +23,14 @@ public class SortTest {
         for (int i = 0; i < arr1.length; i++) {
             System.out.println(arr1[i]);
         }
+        ArrayList<String> list = new ArrayList<>();
+        list.add(null);
+        Set<String> set = new HashSet<>();
+        set.add(null);
+        HashMap<Integer, String> hashMap = new HashMap<>();
+        hashMap.put(null, null);
+        Hashtable<Integer, String> hashtable = new Hashtable<>();
+        hashtable.put(null, null);
 
 //        int[] arr2 = new int[5000];
 //        for (int i = 0; i < arr2.length; i++) {
@@ -51,7 +58,81 @@ public class SortTest {
 //        System.out.println("小于des条件的最大的数: " + Find.binarySearchMaxFind(arr,50));
 //        System.out.println("" + 7 / 2 + " " + 7 % 2);
 //
-//        int[] arr1 = { 6, 12, 33, 33, 33, 33, 33, 87, 90, 97, 108, 561 };
+        int[] arrs = {6, 12, 33, 33, 33, 33, 33, 87, 90, 97, 108, 561};
 //        System.out.println("des出现次数: " + Find.binarySearchCount(arr1,33));
+        bubbleSort(arrs);
+        System.out.println("冒泡排序");
+        for (int arr : arrs) {
+            System.out.println(arr);
+        }
+    }
+
+    public static void bubbleSort(int[] nums) {
+        for (int i = nums.length - 1; i >= 1; i--) {
+            for (int j = 1; j <= i; j++) {
+                if (nums[j - 1] > nums[j]) {
+                    swap(nums, j, j - 1);
+                }
+            }
+        }
+    }
+
+    public static void quickSort(int[] nums, int low, int high) {
+        if (low >= high) {
+            return;
+        }
+
+        int index = partition(nums, low, high);
+        quickSort(nums, low, index - 1);
+        quickSort(nums, index + 1, high);
+
+    }
+
+
+    public static int partition (int[] nums, int low, int high) {
+
+        int pivot = nums[low];
+        while (low < high) {
+            // 移动high指针
+            while (low < high && nums[high] >= pivot) {
+                high--;
+            }
+
+            // 填坑
+            if (low < high) nums[low] = nums[high];
+
+            while (low < high && nums[low] <= pivot) {
+                low++;
+            }
+
+            // 填坑
+            if (low < high) nums[high] = nums[low];
+        }
+
+        //基准数放到合适的位置
+        nums[low] = pivot;
+        return low;
+    }
+
+    public static int partition2 (int[] nums, int low, int high) {
+
+        int pivot = nums[low];
+        int start = low;
+
+        while (low < high) {
+            while (low < high && nums[high] >= pivot) high--;
+            while (low < high && nums[low] <= pivot) low++;
+            if (low >= high) break;
+            swap(nums, low, high);
+        }
+        //基准值归位
+        swap(nums,start,low);
+        return low;
+    }
+
+    public static void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
     }
 }
