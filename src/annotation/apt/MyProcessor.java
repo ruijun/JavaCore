@@ -15,6 +15,7 @@ import java.util.Set;
 
 /**
  * 每一个注解处理器类都必须有一个空的构造函数，默认不写就行;
+ * @AutoService作用：生成META-INF/service/javax.annotation.processing.Processor
  */
 //@AutoService(Processor.class)
 public class MyProcessor extends AbstractProcessor {
