@@ -189,6 +189,7 @@ public class BinaryTree2 {
 
                 System.out.print(current_node.data + " ");
 
+                // queue先进先出，所以先左后右
                 if (current_node.left != null) {
                     queue.add(current_node.left);
                 }
@@ -227,6 +228,7 @@ public class BinaryTree2 {
             BinaryTree2 curNode = stack.pop();
             System.out.print(curNode.data + " ");
 
+            // stack先进后出，所以先右后左
             if (curNode.right != null) {
                 stack.push(curNode.right);
             }

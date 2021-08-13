@@ -61,6 +61,10 @@ public class Test {
 		int num1 = 30 >>> 1;
 		System.out.printf("num=" + num + " num1=" + num1);
 
+		char numChar = '3';
+		int  intNum = numChar - '0';
+		System.out.println(numChar + ": " + intNum);
+
 	}
 
 	public static void test1(boolean isShow, int num) {
@@ -133,5 +137,26 @@ public class Test {
 
 		String s = Integer.toBinaryString(MODE_MASK);
 		System.out.println("MODE_MASK=" + s);
+	}
+
+	/**
+	 * 取指定位数的数字
+	 */
+	private static void getNum() {
+		int num = 123456;
+
+		//取个位数值
+		int num_units = num % 10;
+
+		//取十位数值
+		int num_tens = num / 10 % 10;
+
+		//取百位数值
+
+		int num_hundred = num / 100 % 10;
+
+		System.out.println("个位数值：" + num_units);
+		System.out.println("十位数值：" + num_tens);
+		System.out.println("百位数值：" + num_hundred);
 	}
 }

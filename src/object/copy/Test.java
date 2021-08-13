@@ -18,7 +18,7 @@ public class Test {
         System.out.println(Arrays.toString(srcArray)); // [0, 1, 2, 3, 4, 5, 6, 7, 8]
         System.out.println(Arrays.toString(destArray)); // [2, 3, 4, 5, 6, 7, 8]
 
-        int [] newArray = Arrays.copyOf(srcArray, 7);
-        System.out.println(Arrays.toString(newArray)); // [0, 1, 2, 3, 4, 5, 6, 7]
+        int [] newArray = Arrays.copyOf(srcArray, 10);
+        System.out.println(Arrays.toString(newArray) + " " + newArray.length); // [0, 1, 2, 3, 4, 5, 6, 7]
     }
 }
