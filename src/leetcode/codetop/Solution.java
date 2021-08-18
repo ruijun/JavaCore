@@ -1,5 +1,7 @@
 package leetcode.codetop;
 
+import util.Util;
+
 import java.util.*;
 
 /**
@@ -13,7 +15,7 @@ public class Solution {
     /**
      * 股票买卖最佳时机
      * https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/
-     * 贪心算法
+     * 贪心算法(最低点买，最高点卖)
      */
     public int maxProfit(int prices[]) {
         if (prices == null || prices.length == 0) return 0;
@@ -32,6 +34,19 @@ public class Solution {
     }
 
     /**
+     * 买卖股票最佳时机2
+     * https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/
+     */
+    public int maxProfit2(int[] prices) {
+        int ans = 0;
+        int n = prices.length;
+        for (int i = 1; i < n; ++i) {
+            ans += Math.max(0, prices[i] - prices[i - 1]);
+        }
+        return ans;
+    }
+
+    /**
      * 无重复字符的最长子串
      * https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/
      * 滑动窗口
@@ -46,6 +61,7 @@ public class Solution {
         int left = 0;
         for (int right = 0; right < s.length(); right++) {
             if (map.containsKey(s.charAt(right))) {
+                // 'dvdf' 遇到d相同时候，left应该要移到v的位置，所以要加+1
                 left = Math.max(left, map.get(s.charAt(right)) + 1);
             }
             map.put(s.charAt(right), right);
@@ -61,7 +77,7 @@ public class Solution {
      * 一遍hash O(n)
      */
     public int[] twoSum(int[] nums, int target) {
-        Map<Integer, Integer> map = new HashMap<>();
+        HashMap<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
             if (map.containsKey(target - nums[i])) {
                 return new int[]{map.get(target - nums[i]), i};
@@ -74,6 +90,7 @@ public class Solution {
     /**
      * 回文数
      * https://leetcode-cn.com/problems/palindrome-number/
+     * 取指定位数的数字
      */
     public boolean isPalindrome(int x) {
         if (x < 0) {
@@ -133,19 +150,20 @@ public class Solution {
             int x = i >= 0 ? num1.charAt(i) - '0' : 0;
             int y = j >= 0 ? num2.charAt(j) - '0' : 0;
             int result = x + y + add;
-            ans.append(result % 10);
+            ans.insert(0, result % 10);
             add = result / 10;
             i--;
             j--;
         }
         // 计算完以后的答案需要翻转过来
-        ans.reverse();
+//        ans.reverse();
         return ans.toString();
     }
 
     /**
      * 最大子序和
-     * 贪心
+     * https://leetcode-cn.com/problems/maximum-subarray/
+     * 贪心算法
      */
     public int maxSubArray(int[] nums) {
         if (nums.length == 1) {
@@ -163,11 +181,9 @@ public class Solution {
         return sum;
     }
 
-    public int maxSubArray2(int[] nums) {
-        if (nums.length == 1) {
-            return nums[0];
-        }
 
+
+    public int maxSubArray2(int[] nums) {
         int ans = nums[0];
         int sum = 0;
         for (int num : nums) {
@@ -216,6 +232,9 @@ public class Solution {
         Arrays.sort(nums1);
     }
 
+    /**
+     * 三数之和
+     */
     public List<List<Integer>> threeSum(int[] nums) {
         Arrays.sort(nums);
         List<List<Integer>> res = new ArrayList();
@@ -289,7 +308,9 @@ public class Solution {
     }
 
     /**
-     * 最长严格递增子序列的长度
+     * 最长递增子序列
+     * https://leetcode-cn.com/problems/longest-increasing-subsequence/
+     * 动态规划
      */
     public int lengthOfLIS(int[] nums) {
         if (nums.length == 0) {
@@ -299,7 +320,7 @@ public class Solution {
         int[] dp = new int[nums.length];
         //初始化就是边界情况
         dp[0] = 1;
-        int maxans = 1;
+        int maxAns = 1;
         //自底向上遍历
         for (int i = 1; i < nums.length; i++) {
             dp[i] = 1;
@@ -312,11 +333,15 @@ public class Solution {
                 }
             }
             //求出dp[i]后，dp最大那个就是nums的最长递增子序列啦
-            maxans = Math.max(maxans, dp[i]);
+            maxAns = Math.max(maxAns, dp[i]);
         }
-        return maxans;
+        return maxAns;
     }
 
+    /**
+     * 最小路径和
+     * https://leetcode-cn.com/problems/minimum-path-sum/
+     */
     public int minPathSum(int[][] grid) {
         if (grid == null || grid.length == 0 || grid[0].length == 0) {
             return 0;
@@ -336,5 +361,83 @@ public class Solution {
             }
         }
         return dp[rows - 1][columns - 1];
+    }
+
+    List<List<Integer>> res = new LinkedList<>();
+
+    /**
+     * 全排列
+     */
+    public List<List<Integer>> permute(int[] nums) {
+        LinkedList<Integer> track = new LinkedList<>();
+        backTrace(nums, track);
+        return res;
+    }
+
+    private void backTrace(int[] nums, LinkedList<Integer> track) {
+        // 相等的时候，说明得到了一个全排列
+        if (track.size() == nums.length) {
+            res.add(new LinkedList(track));
+            return;
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            // 如果已经存在该元素，就不添加
+            if (track.contains(nums[i])) {
+                continue;
+            }
+
+            // 选择元素
+            track.add(nums[i]);
+            backTrace(nums, track);
+            // 撤销选择
+            track.removeLast();
+        }
+    }
+
+    /**
+     * 零钱兑换
+     * https://leetcode-cn.com/problems/coin-change/
+     * 动态规划
+     */
+    public int coinChange(int[] coins, int amount) {
+        int max = amount + 1;
+        int[] dp = new int[amount + 1];
+        Arrays.fill(dp, max);
+        dp[0] = 0;
+        for (int i = 1; i <= amount; i++) {
+            for (int j = 0; j < coins.length; j++) {
+                if (coins[j] <= i) {
+                    dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
+                }
+            }
+        }
+        return dp[amount] > amount ? -1 : dp[amount];
+    }
+
+    /**
+     * 背包问题
+     */
+    public int badgeProblem(int []weights, int []values, int bagSize) {
+        int wLen = weights.length;
+        // 定义dp数组：dp[i][j]表示背包容量为j时，前i个物品能获得的最大价值
+        int[][] dp = new int[wLen + 1][bagSize + 1];
+
+        // 初始化：背包容量为0时，能获得的价值都为0
+        for (int j = 0; j < weights[0]; j++) {
+            dp[0][j] = 0;
+        }
+
+        for (int i = 1; i < weights.length; i++) {
+            for (int j = 0; j <= bagSize; j++) {
+                if (j < weights[i]) {
+                    dp[i][j] = dp[i - 1][j]; // 背包内的价值依然和前面相同
+                } else {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - weights[i]] + values[i]);
+                }
+            }
+        }
+        Util.printTwoIntArrays(dp);
+        return -1;
     }
 }

@@ -65,6 +65,7 @@ public class Test {
 		int  intNum = numChar - '0';
 		System.out.println(numChar + ": " + intNum);
 
+		testInteger();
 	}
 
 	public static void test1(boolean isShow, int num) {
@@ -145,7 +146,7 @@ public class Test {
 	private static void getNum() {
 		int num = 123456;
 
-		//取个位数值
+		//取个位数值，求余
 		int num_units = num % 10;
 
 		//取十位数值
@@ -158,5 +159,17 @@ public class Test {
 		System.out.println("个位数值：" + num_units);
 		System.out.println("十位数值：" + num_tens);
 		System.out.println("百位数值：" + num_hundred);
+	}
+
+	private static void testInteger() {
+		// -128 <= num < 128 // IntegerCache [-128, 128)
+		// 装箱操作会创建对象，频繁的装箱操作会消耗许多内存，影响性能，所以可以避免装箱的时候应该尽量避免。
+		Integer i1 = -128;
+		Integer i2 = -128;
+		Integer i3 = 127;
+		Integer i4 = 127;
+
+		System.out.println("i1 = i2 =>" + (i1 == i2));
+		System.out.println("i3 = i4 =>" + (i3 == i4));
 	}
 }

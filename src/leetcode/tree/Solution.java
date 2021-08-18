@@ -9,7 +9,105 @@ import java.util.*;
  * @date 2021/8/9 12:04 下午
  */
 public class Solution {
+    ArrayList<Integer> preOrderReverse(TreeNode root) {
+        ArrayList<Integer> result = new ArrayList<>();
+        preOrder(root, result);
+        return result;
+    }
 
+    /**
+     * 前序遍历：根节点-左节点-右节点
+     *
+     * @param root
+     * @param result
+     */
+    public void preOrder(TreeNode root, ArrayList<Integer> result) {
+        if (root == null) {
+            return;
+        }
+        result.add(root.val);
+        preOrder(root.left, result);
+        preOrder(root.right, result);
+    }
+
+    /**
+     * 中序遍历：左节点-根节点-右节点
+     *
+     * @param root
+     * @param result
+     */
+    public void inOrder(TreeNode root, ArrayList<Integer> result) {
+        if (root == null) {
+            return;
+        }
+        preOrder(root.left, result);
+        result.add(root.val);
+        preOrder(root.right, result);
+    }
+
+    /**
+     * 后序遍历：左节点-右节点-根节点
+     *
+     * @param root
+     * @param result
+     */
+    public void postOrder(TreeNode root, ArrayList<Integer> result) {
+        if (root == null) {
+            return;
+        }
+        preOrder(root.left, result);
+        preOrder(root.right, result);
+        result.add(root.val);
+    }
+
+    /**
+     * 求二叉树最小深度
+     */
+    public int minDepth(TreeNode root) {
+        if (root == null)
+            return 0;
+        int left = minDepth(root.left);
+        int right = minDepth(root.right);
+        return (left == 0 || right == 0) ? left + right + 1 : Math.min(left, right) + 1;
+    }
+
+    /**
+     * 求二叉树中的节点个数
+     */
+    public static int getNodeNumRec(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return getNodeNumRec(root.left) + getNodeNumRec(root.right) + 1;
+    }
+
+
+    /**
+     * 求二叉树的最大层数(最大深度)
+     */
+    public int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+    }
+
+    /**
+     * 判断二叉树是不是平衡二叉树
+     * 高度平衡二叉树定义为： 一个二叉树，其中每个节点的两个子树的深度差不相差超过1。
+     */
+    public boolean isBalanced(TreeNode root) {
+        if(root == null)
+            return true;
+        return Math.abs(maxHigh(root.left) - maxHigh(root.right)) <= 1
+                && isBalanced(root.left) && isBalanced(root.right);
+    }
+
+    public int maxHigh(TreeNode root){
+        if(root == null)
+            return 0;
+        return Math.max(maxHigh(root.left), maxHigh(root.right))+1;
+    }
 
     /**
      * 二叉树的锯齿形层序遍历
@@ -88,20 +186,45 @@ public class Solution {
         return ret;
     }
 
+    /**
+     * dfs
+     */
+    public static void dfsOrder(TreeNode node) {
+        if (node == null) {
+            return;
+        }
+
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(node);
+        while (!stack.empty()) {
+            TreeNode curNode = stack.pop();
+            System.out.print(curNode.val + " ");
+
+            // stack先进后出，所以先右后左
+            if (curNode.right != null) {
+                stack.push(curNode.right);
+            }
+
+            if (curNode.left != null) {
+                stack.push(curNode.left);
+            }
+        }
+    }
+
     public TreeNode invertTree(TreeNode root) {
         // 层次遍历--直接左右交换即可
         if (root == null) return null;
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
-        while (!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             TreeNode node = queue.poll();
             TreeNode rightTree = node.right;
             node.right = node.left;
             node.left = rightTree;
-            if (node.left != null){
+            if (node.left != null) {
                 queue.offer(node.left);
             }
-            if (node.right != null){
+            if (node.right != null) {
                 queue.offer(node.right);
             }
         }
@@ -120,6 +243,79 @@ public class Solution {
         root.left = rightNode;
 
         return root;
+    }
+
+    /**
+     * 二叉搜索树的第k个结点
+     */
+    public int kthSmallest(TreeNode root, int k) {
+        if(root == null)
+            return Integer.MIN_VALUE;
+        Stack<TreeNode> stack = new Stack<>();
+        int count = 0;
+        TreeNode p = root;
+        while(p != null || !stack.isEmpty()){
+            if(p != null){
+                stack.push(p);
+                p = p.left;
+            }else{
+                TreeNode node = stack.pop();
+                count ++;
+                if(count == k)
+                    return node.val;
+                p = node.right;
+            }
+        }
+        return Integer.MIN_VALUE;
+    }
+
+    /**
+     * 求二叉树第K层的节点个数
+     */
+    public int getKLevelNumber(TreeNode root, int k){
+        if(root == null || k <=0){
+            return 0;
+        }
+        if(root != null && k == 1){
+            return 1;
+        }
+        return getKLevelNumber(root.left, k-1) + getKLevelNumber(root.right, k-1);
+    }
+
+    /**
+     * 求二叉树的直径
+     * 一棵二叉树的直径长度是任意两个结点路径长度中的最大值
+     * 对于每个节点，它的最长路径等于左子树的最长路径+右子树的最长路径
+     */
+    private int path = 0;
+    public int diameterOfBinaryTree(TreeNode root) {
+        diamHelper(root);
+        return path;
+    }
+
+    private int diamHelper(TreeNode root){
+        if(root == null)
+            return 0;
+        int left = diamHelper(root.left);
+        int right = diamHelper(root.right);
+        path = Math.max(path, left + right);
+        return Math.max(left, right) + 1;
+    }
+
+    /**
+     * 求二叉搜索树的最近公共祖先
+     *
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root.val > p.val && root.val > q.val){
+            return lowestCommonAncestor(root.left, p, q);
+        }
+        else if(root.val < p.val && root.val < q.val){
+            return lowestCommonAncestor(root.right, p, q);
+        }
+        else{
+            return root;
+        }
     }
 
     public static TreeNode initTree() {

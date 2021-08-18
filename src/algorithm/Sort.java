@@ -6,7 +6,7 @@ package algorithm;
  * @autor rj-liang
  * @date 2017/5/14 下午9:54
  */
-public class Sort {
+public class  Sort {
 
     /**
      * 选择排序，每一轮排序，选择数组中数字最小的那一个放到指定的位置上。
@@ -233,6 +233,8 @@ public class Sort {
                 j--;
             }
         }
+
+        //基准数放到合适的位置
         nums[i] = x;
         return i;
     }

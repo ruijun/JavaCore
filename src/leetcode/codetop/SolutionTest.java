@@ -24,5 +24,21 @@ public class SolutionTest {
                          {4, 2, 1}};
         solution.minPathSum(grid);
 
+        int []numC = {1, 2, 3};
+        solution.permute(numC);
+
+        int []numD = {1, 2, 5};
+        solution.coinChange(numD, 5);
+
+        int[] weight = {1, 3, 4};
+        int[] value = {15, 20, 30};
+        int bagSize = 4;
+        solution.badgeProblem(weight, value, bagSize);
+
+        String numStr1 = "51189";
+        String numStr2 = "967895";
+
+        solution.addStrings(numStr1, numStr2);
+        System.out.printf("numStr1 + numStr2=" + solution.addStrings(numStr1, numStr2));
     }
 }

@@ -194,6 +194,7 @@ public class Solution {
 
     /**
      * 剑指 Offer 22. 链表中倒数第k个节点
+     * 快慢指针
      *
      * @param head
      * @param k
@@ -215,4 +216,20 @@ public class Solution {
         return afterNode;
     }
 
+    /**
+     * 合并两个有序链表
+     */
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if (l1 == null) {
+            return l2;
+        } else if (l2 == null) {
+            return l1;
+        } else if (l1.val < l2.val) {
+            l1.next = mergeTwoLists(l1.next, l2);
+            return l1;
+        } else {
+            l2.next = mergeTwoLists(l1, l2.next);
+            return l2;
+        }
+    }
 }
