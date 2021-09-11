@@ -7,6 +7,7 @@ import java.lang.reflect.Proxy;
 /**
  * 代理类的调用处理器
  *
+ *
  * Created by ruijun on 17-5-11.
  */
 public class ProxyHandler implements InvocationHandler{

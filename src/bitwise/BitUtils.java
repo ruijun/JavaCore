@@ -10,21 +10,29 @@ public class BitUtils {
 
     /**
      * 交换两个数
+     * 异或：两个位相同为0，不同为1
      */
     public static void swap(){
+        /**
+         * 1010
+         * 0011
+         * 1001
+         *
+         *
+         */
         int a = 10;
         int b = 5;
 
-        a = a ^ b;
-        b = b ^ a;
-        a = a ^ b;
+        a = a ^ b; // 1010 ^ 0011 = 1001
+        b = b ^ a; // 0011 ^ 1001 = 1010
+        a = a ^ b; // 1001 ^ 1010 = 0011
 
         System.out.println("a= " + a + " " + "b= " + b);
     }
 
     /**
      * 判断奇偶数
-     *
+     * 与: 两个位都为1时，结果才为1
      * @param num
      * @return
      */
@@ -65,7 +73,7 @@ public class BitUtils {
 
         byte mask = (byte) (1 << pos);
         if (value > 0) {
-            source |= mask;
+            source |= mask; //或：两个位都为0时，结果才为0
         } else {
             source &= (~mask);
         }

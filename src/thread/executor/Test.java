@@ -33,6 +33,8 @@ public class Test {
         }
         cachedThreadPool.shutdown();
 
+        Executors.newScheduledThreadPool(1);
+
     }
 
     private static final ThreadFactory sFactory = new ThreadFactory() {

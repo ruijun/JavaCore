@@ -232,4 +232,31 @@ public class Solution {
             return l2;
         }
     }
+
+    /**
+     * 相交链表
+     * https://leetcode-cn.com/problems/intersection-of-two-linked-lists/
+     * 双指针
+     */
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        //获取两个指针指向头节点
+        ListNode p1 = headA,p2 = headB;
+        //比较两个指针指向的节点
+        while(p1 != p2){
+            //如果p1不为空，则向下访问，否则访问headB
+            if(p1 != null){
+                p1 = p1.next;
+            }else{
+                p1 = headB;
+            }
+            //如果p2不为空，则向下访问，否则访问headA
+            if(p2 != null){
+                p2 = p2.next;
+            }else{
+                p2 = headA;
+            }
+        }
+        //跳出循环时p1=p2,如果两链表相交则返回相交节点，如果不相交，此时p1=p2=null，返回null
+        return p1;
+    }
 }
